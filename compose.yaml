@@ -1,0 +1,27 @@
+# GerberSLAp with Docker Compose.
+#
+#   docker compose build
+#   docker compose run --rm -v "$PWD/template:/in:ro" gerberslap --install-template ld002h /in/template.ctb     (once only: the printer's template, see docs/en/INSTALLATION.md)
+#   docker compose up -d
+#
+# and the app is at http://127.0.0.1:8800. The volume holds the template and the recipes: back it up.
+services:
+  gerberslap:
+    build: .
+    image: gerberslap
+    container_name: gerberslap
+    restart: unless-stopped
+    init: true
+    ports:
+      # this computer only; the port is GERBERSLAP_PORT (8800 if it is not set, in the environment or in a .env file next to this one).
+      # To reach it from the home network, take "127.0.0.1:" away, and say below the name it is reached by.
+      - "127.0.0.1:${GERBERSLAP_PORT:-8800}:${GERBERSLAP_PORT:-8800}"
+    environment:
+      GERBERSLAP_PORT: "${GERBERSLAP_PORT:-8800}"
+      # GERBERSLAP_ALLOWED_HOSTS: "nas.local"   # the name(s), separated by commas, the browsers reach it by (other than localhost): without it the server refuses them
+      # GERBERSLAP_NO_LIBRARY: "1"              # turns the recipe library off (it does not make the server safe for the Internet)
+    volumes:
+      - gerberslap-data:/data
+
+volumes:
+  gerberslap-data:

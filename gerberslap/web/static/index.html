@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GerberSLAp</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app" class="app" data-view="plane">
+
+  <header class="menubar">
+    <div class="brand"><span class="logo" aria-hidden="true"></span><strong>GerberSLAp</strong>
+      <span class="badge mock" data-i18n="alpha_badge"></span></div>
+    <nav class="tabs" role="tablist" data-i18n-aria="tabs_label">
+      <button role="tab" id="tab-plane" data-view="plane" aria-selected="true" aria-controls="view-plane"><span class="tico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></span><span data-i18n="tab_plane"></span></button>
+      <button role="tab" id="tab-ladder" data-view="ladder" aria-selected="false" aria-controls="view-ladder" tabindex="-1"><span class="tico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11M10 20V4M16 20v-9M22 20V7" transform="translate(-1 0)"/></svg></span><span data-i18n="tab_ladder"></span></button>
+      <button role="tab" id="tab-settings" data-view="settings" aria-selected="false" aria-controls="view-settings" tabindex="-1"><span class="tico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span><span data-i18n="tab_settings"></span></button>
+      <button role="tab" id="tab-help" data-view="help" aria-selected="false" aria-controls="view-help" tabindex="-1"><span class="tico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.9M12 17.2h.01"/></svg></span><span data-i18n="tab_help"></span></button>
+    </nav>
+    <div class="spacer"></div>
+    <span class="projname" id="project-name" tabindex="0"></span>
+    <div class="menu">
+      <button id="btn-new" class="btn ghost icon" data-i18n-title="new_hint" data-i18n-aria="new_hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A1.5 1.5 0 0 0 6 4.5v15A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V7z"/><path d="M14 3v4h4M12 11v6M9 14h6"/></svg></button>
+      <button id="btn-open" class="btn ghost icon" data-i18n-title="open_hint" data-i18n-aria="open_hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></button>
+      <button id="btn-save" class="btn ghost icon" data-i18n-title="save_hint" data-i18n-aria="save_hint" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h11l3.5 3.5v12a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19V5A1.5 1.5 0 0 1 5 3.5z"/><path d="M7.5 3.5v5h7v-5M7.5 20.5v-6h9v6"/></svg></button>
+      <button id="btn-download" class="btn ghost icon" data-i18n-title="download_hint" data-i18n-aria="download_hint" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></svg></button>
+    </div>
+    <span class="mb-divider" aria-hidden="true"></span>
+    <button id="lang-btn" class="langbtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-menu"></button>
+  </header>
+
+  <!-- ===== sidebar: only for the plane view ===== -->
+  <aside class="sidebar" id="sidebar">
+    <nav class="rail" id="rail" role="tablist" aria-orientation="vertical" data-i18n-aria="sections_label">
+      <button role="tab" id="rail-boards" data-sec="boards" aria-selected="true" aria-controls="sec-boards" data-i18n-title="boards" data-i18n-aria="boards"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5" opacity=".55"/></svg><span class="rbadge" id="badge-boards"></span></button>
+      <button role="tab" id="rail-place" data-sec="place" aria-selected="false" aria-controls="sec-place" data-i18n-title="placement" data-i18n-aria="placement"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M3 12h18"/><path d="M12 3l-2.5 2.5M12 3l2.5 2.5M12 21l-2.5-2.5M12 21l2.5-2.5M3 12l2.5-2.5M3 12l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5"/></svg><span class="rbadge dot" id="badge-place" hidden></span></button>
+      <button role="tab" id="rail-expo" data-sec="expo" aria-selected="false" aria-controls="sec-expo" data-i18n-title="exposure" data-i18n-aria="exposure"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><span class="rbadge dot" id="badge-expo" hidden></span></button>
+    </nav>
+    <div class="panels">
+    <div class="panels-scroll">
+    <section class="panel sec-boards" id="sec-boards" role="tabpanel" aria-labelledby="h-boards">
+      <div class="panel-head">
+        <h2 id="h-boards" data-i18n="boards"></h2>
+        <div class="row">
+          <button id="btn-expand-all" class="btn sm icon" data-i18n-title="expand_all" data-i18n-aria="expand_all" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9l5-5 5 5M7 15l5 5 5-5"/></svg></button>
+          <button id="btn-collapse-all" class="btn sm icon" data-i18n-title="collapse_all" data-i18n-aria="collapse_all" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l5 5 5-5M7 20l5-5 5 5"/></svg></button>
+          <button id="btn-add" class="btn sm icon" data-i18n-title="add_board" data-i18n-aria="add_board"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+      <input type="file" id="file-add" accept=".zip,application/zip" multiple hidden>
+      <input type="file" id="file-open" accept=".gslp" hidden>
+      <div id="boards-list"></div>
+    </section>
+
+    <section class="panel sec-place" id="sec-place" role="tabpanel" aria-labelledby="h-place" hidden>
+      <div class="panel-head"><h2 id="h-place" data-i18n="placement"></h2></div>
+      <div id="place-empty" class="callout info small"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6h.01"/></svg><p data-i18n="select_board_hint"></p></div>
+      <div id="place-body" hidden>
+        <div class="pl-block">
+          <span class="pl-label" id="pl-centre" data-i18n="pl_centre"></span>
+          <div class="values two" role="group" aria-labelledby="pl-centre">
+            <label class="vcard" for="in-x" data-i18n-title="pos_x"><span class="vc-top"><button type="button" class="vstep" data-for="in-x" data-step="-1" data-i18n-title="pl_x_down" data-i18n-aria="pl_x_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><span class="vc-letter" aria-hidden="true">X</span><button type="button" class="vstep" data-for="in-x" data-step="1" data-i18n-title="pl_x_up" data-i18n-aria="pl_x_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="in-x" type="number" step="0.1" data-jump="1" data-i18n-aria="pos_x"><span class="vc-unit" aria-hidden="true">mm</span></span></label>
+            <label class="vcard" for="in-y" data-i18n-title="pos_y"><span class="vc-top"><button type="button" class="vstep" data-for="in-y" data-step="-1" data-i18n-title="pl_y_down" data-i18n-aria="pl_y_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><span class="vc-letter" aria-hidden="true">Y</span><button type="button" class="vstep" data-for="in-y" data-step="1" data-i18n-title="pl_y_up" data-i18n-aria="pl_y_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="in-y" type="number" step="0.1" data-jump="1" data-i18n-aria="pos_y"><span class="vc-unit" aria-hidden="true">mm</span></span></label>
+          </div>
+          <div class="pl-turn">
+            <button class="btn sm" id="btn-rot-ccw" data-i18n-title="rot_ccw" data-i18n-aria="rot_ccw"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v5h5"/><path d="M5.6 14.5a7 7 0 1 0 .9-7.4L4 9"/></svg><span>90°</span></button>
+            <label class="vcard" for="in-angle" data-i18n-title="angle"><span class="vc-top"><button type="button" class="vstep" data-for="in-angle" data-step="-1" data-i18n-title="pl_a_down" data-i18n-aria="pl_a_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16"/><path d="M4 19L16 6"/><path d="M11.5 19a7.5 7.5 0 0 0-2.3-5.3"/></svg><button type="button" class="vstep" data-for="in-angle" data-step="1" data-i18n-title="pl_a_up" data-i18n-aria="pl_a_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="in-angle" type="number" step="1" data-jump="1" data-i18n-aria="angle"><span class="vc-unit" aria-hidden="true">°</span></span></label>
+            <button class="btn sm" id="btn-rot-cw" data-i18n-title="rot_cw" data-i18n-aria="rot_cw"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4v5h-5"/><path d="M18.4 14.5a7 7 0 1 1-.9-7.4L20 9"/></svg><span>90°</span></button>
+          </div>
+        </div>
+        <div class="pl-block">
+          <span class="pl-label" id="pl-mirror" data-i18n="mirror"></span>
+          <div class="pol-switch" id="mirror-switch" role="radiogroup" aria-labelledby="pl-mirror">
+            <label class="chip opt"><input type="radio" name="mirror" value="off"><span data-i18n="mirror_off"></span></label>
+            <button type="button" class="pol-track" id="mirror-toggle" tabindex="-1" aria-hidden="true"><span class="pol-knob"></span></button>
+            <label class="chip opt"><input type="radio" name="mirror" value="on"><span data-i18n="mirror_on"></span></label>
+          </div>
+        </div>
+        <div class="callout info small" id="mirror-hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6h.01"/></svg><p data-i18n="mirror_hint"></p></div>
+        <fieldset class="frame margins-frame"><legend data-i18n="m_title"></legend><div id="margins" aria-live="polite"></div></fieldset>
+        <fieldset class="frame anchor-frame" id="anchor-box"><legend data-i18n="anchor"></legend>
+          <p class="muted small" data-i18n="anchor_hint"></p>
+          <div class="anchor-pick" id="anchor-pick" role="radiogroup" data-i18n-aria="anchor">
+            <button type="button" role="radio" aria-checked="true" data-corner="TL" data-i18n-title="c_tl" data-i18n-aria="c_tl"></button>
+            <button type="button" role="radio" aria-checked="false" data-corner="TR" data-i18n-title="c_tr" data-i18n-aria="c_tr"></button>
+            <button type="button" role="radio" aria-checked="false" data-corner="C" data-i18n-title="c_c" data-i18n-aria="c_c"></button>
+            <button type="button" role="radio" aria-checked="false" data-corner="BL" data-i18n-title="c_bl" data-i18n-aria="c_bl"></button>
+            <button type="button" role="radio" aria-checked="false" data-corner="BR" data-i18n-title="c_br" data-i18n-aria="c_br"></button>
+          </div>
+          <div class="values two">
+            <label class="vcard" for="in-ax" data-i18n-title="offset_x"><span class="vc-top"><button type="button" class="vstep" data-for="in-ax" data-step="-1" data-i18n-title="pl_ax_down" data-i18n-aria="pl_ax_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><span class="vc-letter" aria-hidden="true">X</span><button type="button" class="vstep" data-for="in-ax" data-step="1" data-i18n-title="pl_ax_up" data-i18n-aria="pl_ax_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="in-ax" type="number" step="0.1" data-jump="1" value="0" data-i18n-aria="offset_x"><span class="vc-unit" aria-hidden="true">mm</span></span></label>
+            <label class="vcard" for="in-ay" data-i18n-title="offset_y"><span class="vc-top"><button type="button" class="vstep" data-for="in-ay" data-step="-1" data-i18n-title="pl_ay_down" data-i18n-aria="pl_ay_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><span class="vc-letter" aria-hidden="true">Y</span><button type="button" class="vstep" data-for="in-ay" data-step="1" data-i18n-title="pl_ay_up" data-i18n-aria="pl_ay_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="in-ay" type="number" step="0.1" data-jump="1" value="0" data-i18n-aria="offset_y"><span class="vc-unit" aria-hidden="true">mm</span></span></label>
+          </div>
+          <div class="row gap fill"><button class="btn sm primary" id="btn-anchor" data-i18n-title="apply_hint" data-i18n-aria="apply_hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="apply"></span></button></div>
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="panel sec-expo" id="sec-expo" role="tabpanel" aria-labelledby="h-expo" hidden>
+      <div class="panel-head"><h2 id="h-expo" data-i18n="exposure"></h2></div>
+      <div class="expo-body">
+      <div id="recipe-block">
+        <div class="row gap sel-row">
+          <div class="field grow"><span id="recipe-label" data-i18n="ex_recipe"></span>
+            <div class="picker" id="recipe-picker">
+              <button type="button" class="picker-btn" id="recipe-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="recipe-menu" aria-labelledby="recipe-label recipe-btn"></button>
+              <div class="picker-menu" id="recipe-menu" role="listbox" aria-labelledby="recipe-label" hidden></div>
+            </div>
+          </div>
+        </div>
+        <div id="recipe-info" class="recipe-info small muted"></div>
+      </div>
+      <div class="pol-row" id="pol-row">
+        <div class="pol-switch" id="manual-pol" role="radiogroup" data-i18n-aria="resist">
+          <label class="chip pos"><input type="radio" name="polarity" value="positive"><span data-i18n="pol_positive"></span></label>
+          <button type="button" class="pol-track" id="pol-toggle" tabindex="-1" aria-hidden="true"><span class="pol-knob"></span></button>
+          <label class="chip neg"><input type="radio" name="polarity" value="negative"><span data-i18n="pol_negative"></span></label>
+        </div>
+      </div>
+      <div class="callout info small" id="pol-hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6h.01"/></svg><p data-i18n="resist_hint"></p></div>
+      <div id="dosage-block">
+        <div class="row gap sel-row">
+          <div class="field grow"><span id="dosage-label" data-i18n="ex_dosage"></span>
+            <div class="picker" id="dosage-picker">
+              <button type="button" class="picker-btn" id="dosage-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="dosage-menu" aria-labelledby="dosage-label dosage-btn"></button>
+              <div class="picker-menu" id="dosage-menu" role="listbox" aria-labelledby="dosage-label" hidden></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="dos-missing" class="callout warn iconed" hidden>
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5L21.5 20h-19z"/><path d="M12 10v4.5M12 17.2v.01"/></svg>
+        <div class="cb">
+          <strong data-i18n="ex_missing_title"></strong>
+          <p class="small" id="dos-missing-text"></p>
+          <div class="row gap fill">
+            <button class="btn sm" id="btn-dos-manual" data-i18n="ex_manual" data-i18n-title="ex_manual"></button>
+            <button class="btn sm" id="btn-dos-ladder" data-i18n="ex_ladder" data-i18n-title="ex_ladder"></button>
+          </div>
+        </div>
+      </div>
+      <div id="values" class="values">
+        <label class="vcard" for="in-total" data-i18n-title="ex_total"><span class="vc-top"><button type="button" class="vstep" data-for="in-total" data-step="-1" data-i18n-title="ex_down_total" data-i18n-aria="ex_down_total"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M9.5 2.5h5M18.2 6.3l1.3-1.3"/></svg><button type="button" class="vstep" data-for="in-total" data-step="1" data-i18n-title="ex_up_total" data-i18n-aria="ex_up_total"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span>
+          <span class="vc-row"><input id="in-total" type="number" min="0" step="1" placeholder="–" data-i18n-aria="ex_total"><span class="vc-unit" aria-hidden="true">s</span></span></label>
+        <label class="vcard" for="in-pulses" data-i18n-title="ex_pulses"><span class="vc-top"><button type="button" class="vstep" data-for="in-pulses" data-step="-1" data-i18n-title="ex_down_pulses" data-i18n-aria="ex_down_pulses"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5L5.5 13.5H11l-1 8 7.5-11H12z"/></svg><button type="button" class="vstep" data-for="in-pulses" data-step="1" data-i18n-title="ex_up_pulses" data-i18n-aria="ex_up_pulses"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span>
+          <span class="vc-row"><input id="in-pulses" type="number" min="1" step="1" placeholder="–" data-i18n-aria="ex_pulses"></span></label>
+        <label class="vcard" for="in-rest" data-i18n-title="ex_rest"><span class="vc-top"><button type="button" class="vstep" data-for="in-rest" data-step="-1" data-i18n-title="ex_down_rest" data-i18n-aria="ex_down_rest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="3.6" height="14" rx="1"/><rect x="13.9" y="5" width="3.6" height="14" rx="1"/></svg><button type="button" class="vstep" data-for="in-rest" data-step="1" data-i18n-title="ex_up_rest" data-i18n-aria="ex_up_rest"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span>
+          <span class="vc-row"><input id="in-rest" type="number" min="0" step="0.5" placeholder="–" data-i18n-aria="ex_rest"><span class="vc-unit" aria-hidden="true">s</span></span></label>
+      </div>
+      <p class="small flash-note" id="flash-note" hidden></p>
+      <div class="callout small" id="dos-save-row" hidden>
+        <p data-i18n="ex_modified"></p>
+        <div class="row gap fill">
+          <button class="btn sm primary" id="btn-dos-update" data-i18n="ex_update" data-i18n-title="ex_update"></button>
+          <button class="btn sm" id="btn-dos-saveas" data-i18n="ex_saveas" data-i18n-title="ex_saveas"></button>
+        </div>
+      </div>
+      <p class="summary" id="summary" aria-live="polite"></p>
+      <div class="row gap wrap">
+        <button class="btn primary grow" id="btn-generate" data-i18n="ex_generate" disabled></button>
+      </div>
+      <p class="small gen-reason" id="gen-reason" aria-live="polite"></p>
+      <div class="callout ok small gen-result" id="gen-result" role="group" aria-labelledby="gen-res-title" hidden>
+        <strong id="gen-res-title" data-i18n="ex_res_title"></strong>
+        <dl class="gen-res" id="gen-res-list"></dl>
+        <p class="muted" data-i18n="ex_res_hint"></p>
+      </div>
+      </div>
+      <div id="nolib-note" class="callout warn small" hidden data-i18n="ex_nolib"></div>
+    </section>
+    </div>
+    <footer class="side-statusbar" id="side-status" role="status"><span class="ssb-label" data-i18n="ssb_start"></span><span class="ssb-flags" id="ssb-flags"></span></footer>
+    </div>
+    <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" tabindex="0" data-i18n-aria="resize_sidebar" data-i18n-title="resize_sidebar"></div>
+  </aside>
+
+  <!-- ===== view: plane ===== -->
+  <main id="view-plane" class="view plane-view" role="tabpanel" aria-labelledby="tab-plane">
+    <div class="cadtitlebar" role="toolbar" data-i18n-aria="toolbar">
+      <div class="tb-left">
+        <div class="grp">
+          <button class="btn sm icon" id="btn-undo" data-i18n-title="undo_hint" data-i18n-aria="undo_hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+          <button class="btn sm icon" id="btn-redo" data-i18n-title="redo_hint" data-i18n-aria="redo_hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
+        </div>
+      </div>
+      <div class="seg" role="radiogroup" data-i18n-aria="view_mode">
+        <button role="radio" data-mode="material" aria-checked="true" data-i18n="mode_material"></button>
+        <button role="radio" data-mode="light" aria-checked="false" data-i18n="mode_light"></button>
+        <button role="radio" data-mode="exact" aria-checked="false"></button>
+      </div>
+      <div class="tb-right">
+        <span class="chip" id="st-save" role="status"><span id="st-save-main"></span><span id="st-save-extra" class="st-extra"></span></span>
+        <button class="chip ok" id="st-warn" aria-haspopup="dialog" aria-expanded="false"></button>
+        <span id="st-live" class="sr-only" role="status"></span><span id="lay-live" class="sr-only" role="status"></span>
+      </div>
+    </div>
+    <div class="canvas-wrap cadwindow" id="canvas-wrap">
+      <canvas id="plane" tabindex="0" data-i18n-aria="canvas_label"></canvas>
+      <button class="chip printer-pill" id="printer-pill" aria-haspopup="listbox" aria-expanded="false" aria-controls="printer-menu"></button>
+      <div class="printer-menu" id="printer-menu" role="listbox" data-i18n-aria="printer_menu" hidden></div>
+      <div id="empty-state" class="empty" hidden>
+        <h3 data-i18n="empty_title"></h3>
+        <p data-i18n="empty_text"></p>
+        <div class="row gap"><button class="btn primary" id="btn-empty-add" data-i18n="add_board"></button></div>
+      </div>
+    </div>
+    <footer class="statusbar">
+      <div class="sb-left"><span id="st-cursor" class="mono"></span><span id="st-sel" class="muted"></span></div>
+      <div class="sb-right">
+        <span id="st-busy" class="muted"></span>
+        <span class="sb-divider" aria-hidden="true"></span>
+        <div class="grp">
+          <button class="btn sm icon" id="btn-grid" aria-pressed="true" data-i18n-title="grid" data-i18n-aria="grid"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 9.3h16M4 14.7h16M9.3 4v16M14.7 4v16"/></svg></button>
+          <button class="btn sm icon" id="btn-snap" aria-pressed="true" data-i18n-title="snap" data-i18n-aria="snap"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19v-7a7 7 0 0 1 14 0v7h-4v-7a3 3 0 0 0-6 0v7z"/><path d="M5 16h4v3H5zM15 16h4v3h-4z" fill="#fff"/></svg></button>
+        </div>
+        <span class="sb-divider" aria-hidden="true"></span>
+        <div class="grp">
+          <button class="btn sm icon" id="btn-zoom-out" data-i18n-title="zoom_out" data-i18n-aria="zoom_out"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/></svg></button>
+          <button class="btn sm icon" id="btn-zoom-in" data-i18n-title="zoom_in" data-i18n-aria="zoom_in"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg></button>
+          <button class="btn sm icon" id="btn-fit" data-i18n-title="fit_hint" data-i18n-aria="fit_hint"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V5h4M20 9V5h-4M4 15v4h4M20 15v4h-4"/></svg></button>
+        </div>
+        <span id="st-zoom" class="mono"></span>
+      </div>
+    </footer>
+    <div id="warn-pop" class="popover" role="dialog" data-i18n-aria="warnings" hidden></div>
+  </main>
+
+  <!-- ===== view: calibration ladder ===== -->
+  <main id="view-ladder" class="view page" role="tabpanel" aria-labelledby="tab-ladder" hidden>
+    <div class="page-inner">
+      <h1 data-i18n="ladder_title"></h1>
+      <div class="lad-grid">
+        <div class="lad-side">
+          <div class="lad-tabs" id="lad-tabs" data-active="params" role="tablist" aria-orientation="horizontal" data-i18n-aria="ld_sections">
+            <button type="button" role="tab" id="ld-tab-params" data-ldtab="params" aria-selected="true" aria-controls="ld-sec-params" data-i18n-title="ld_params"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></svg><span data-i18n="ld_params"></span></button>
+            <button type="button" role="tab" id="ld-tab-strip" data-ldtab="strip" aria-selected="false" tabindex="-1" aria-controls="ld-sec-strip" data-i18n-title="ld_strip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V13M9 20V9M14 20V5M19 20V2.5"/></svg><span data-i18n="ld_strip"></span></button>
+          </div>
+          <div class="lad-panel">
+            <div class="lad-secs">
+              <section class="lad-sec lad-params" id="ld-sec-params" role="tabpanel" aria-labelledby="ld-tab-params">
+          <span class="pl-label" id="ld-printer-label" data-i18n="ld_printer"></span>
+          <div class="picker" id="ld-printer-picker">
+            <button type="button" class="picker-btn" id="ld-printer-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="ld-printer-menu" aria-labelledby="ld-printer-label ld-printer-btn"></button>
+            <div class="picker-menu" id="ld-printer-menu" role="listbox" aria-labelledby="ld-printer-label" hidden></div>
+          </div>
+          <span class="pl-label lad-gap" id="ld-resist-label" data-i18n="ld_resist"></span>
+          <div class="pol-switch" id="ld-pol" role="radiogroup" aria-labelledby="ld-resist-label">
+            <label class="chip pos"><input type="radio" name="ld-polarity" value="positive"><span data-i18n="pol_positive"></span></label>
+            <button type="button" class="pol-track" id="ld-pol-toggle" tabindex="-1" aria-hidden="true"><span class="pol-knob"></span></button>
+            <label class="chip neg"><input type="radio" name="ld-polarity" value="negative"><span data-i18n="pol_negative"></span></label>
+          </div>
+          <span class="pl-label lad-gap" id="ld-steps-label" data-i18n="ld_steps"></span>
+          <div class="values two" id="ld-values" role="group" aria-labelledby="ld-steps-label">
+            <label class="vcard" for="ld-step" data-i18n-title="ld_step"><span class="vc-top"><button type="button" class="vstep" data-for="ld-step" data-step="-1" data-i18n-title="ld_step_down" data-i18n-aria="ld_step_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M9.5 2.5h5M18.2 6.3l1.3-1.3"/></svg><button type="button" class="vstep" data-for="ld-step" data-step="1" data-i18n-title="ld_step_up" data-i18n-aria="ld_step_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="ld-step" type="number" min="1" max="600" step="1" placeholder="–" data-i18n-aria="ld_step"><span class="vc-unit" aria-hidden="true">s</span></span></label>
+            <label class="vcard" for="ld-bands" data-i18n-title="ld_bands"><span class="vc-top"><button type="button" class="vstep" data-for="ld-bands" data-step="-1" data-i18n-title="ld_bands_down" data-i18n-aria="ld_bands_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V13M9 20V9M14 20V5M19 20V2.5"/></svg><button type="button" class="vstep" data-for="ld-bands" data-step="1" data-i18n-title="ld_bands_up" data-i18n-aria="ld_bands_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="ld-bands" type="number" min="2" max="20" step="1" placeholder="–" data-i18n-aria="ld_bands"></span></label>
+            <label class="vcard" for="ld-pulses" data-i18n-title="ld_pulses"><span class="vc-top"><button type="button" class="vstep" data-for="ld-pulses" data-step="-1" data-i18n-title="ld_pulses_down" data-i18n-aria="ld_pulses_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5L5.5 13.5H11l-1 8 7.5-11H12z"/></svg><button type="button" class="vstep" data-for="ld-pulses" data-step="1" data-i18n-title="ld_pulses_up" data-i18n-aria="ld_pulses_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="ld-pulses" type="number" min="1" max="20" step="1" placeholder="–" data-i18n-aria="ld_pulses"></span></label>
+            <label class="vcard" for="ld-rest" data-i18n-title="ld_rest"><span class="vc-top"><button type="button" class="vstep" data-for="ld-rest" data-step="-1" data-i18n-title="ld_rest_down" data-i18n-aria="ld_rest_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="3.6" height="14" rx="1"/><rect x="13.9" y="5" width="3.6" height="14" rx="1"/></svg><button type="button" class="vstep" data-for="ld-rest" data-step="1" data-i18n-title="ld_rest_up" data-i18n-aria="ld_rest_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="ld-rest" type="number" min="0" max="60" step="0.5" placeholder="–" data-i18n-aria="ld_rest"><span class="vc-unit" aria-hidden="true">s</span></span></label>
+          </div>
+          <span class="pl-label lad-gap" id="ld-mirror-label" data-i18n="mirror"></span>
+          <div class="pol-switch" id="ld-mirror" role="radiogroup" aria-labelledby="ld-mirror-label">
+            <label class="chip opt"><input type="radio" name="ld-mirror" value="off"><span data-i18n="mirror_off"></span></label>
+            <button type="button" class="pol-track" id="ld-mirror-toggle" tabindex="-1" aria-hidden="true"><span class="pol-knob"></span></button>
+            <label class="chip opt"><input type="radio" name="ld-mirror" value="on"><span data-i18n="mirror_on"></span></label>
+          </div>
+              </section>
+              <section class="lad-sec lad-strip off" id="ld-sec-strip" role="tabpanel" aria-labelledby="ld-tab-strip" inert>
+            <span class="pl-label" id="ld-size-label" data-i18n="ld_size"></span>
+            <div class="values two" id="ld-size" role="group" aria-labelledby="ld-size-label">
+              <label class="vcard" for="ld-width" data-i18n-title="ld_width"><span class="vc-top"><button type="button" class="vstep" data-for="ld-width" data-step="-1" data-i18n-title="ld_width_down" data-i18n-aria="ld_width_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M7 9l-3 3 3 3M17 9l3 3-3 3"/></svg><button type="button" class="vstep" data-for="ld-width" data-step="1" data-i18n-title="ld_width_up" data-i18n-aria="ld_width_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="ld-width" type="number" min="6" max="40" step="1" placeholder="–" data-i18n-aria="ld_width"><span class="vc-unit" aria-hidden="true">mm</span></span></label>
+              <label class="vcard" for="ld-height" data-i18n-title="ld_height"><span class="vc-top"><button type="button" class="vstep" data-for="ld-height" data-step="-1" data-i18n-title="ld_height_down" data-i18n-aria="ld_height_down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M9 7l3-3 3 3M9 17l3 3 3-3"/></svg><button type="button" class="vstep" data-for="ld-height" data-step="1" data-i18n-title="ld_height_up" data-i18n-aria="ld_height_up"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button></span><span class="vc-row"><input id="ld-height" type="number" min="15" max="150" step="1" placeholder="–" data-i18n-aria="ld_height"><span class="vc-unit" aria-hidden="true">mm</span></span></label>
+            </div>
+            <div class="lad-tests-head lad-gap"><span class="pl-label" id="ld-tests-label" data-i18n="ld_tests"></span>
+            <div class="grp"><button class="btn sm" id="btn-ld-all" data-i18n="ld_all" data-i18n-title="ld_all_title" data-i18n-aria="ld_all_title"></button>
+              <button class="btn sm" id="btn-ld-none" data-i18n="ld_none" data-i18n-title="ld_none_title" data-i18n-aria="ld_none_title"></button></div></div>
+            <div class="lad-tests" id="ld-tests" role="group" aria-labelledby="ld-tests-label">
+              <label class="switch-row"><input type="checkbox" role="switch" data-test="lines_v"><span class="switch" aria-hidden="true"></span><span data-i18n="ld_t_lines_v"></span></label>
+              <label class="switch-row"><input type="checkbox" role="switch" data-test="lines_h"><span class="switch" aria-hidden="true"></span><span data-i18n="ld_t_lines_h"></span></label>
+              <label class="switch-row"><input type="checkbox" role="switch" data-test="gaps"><span class="switch" aria-hidden="true"></span><span data-i18n="ld_t_gaps"></span></label>
+              <label class="switch-row"><input type="checkbox" role="switch" data-test="soic8"><span class="switch" aria-hidden="true"></span><span data-i18n="ld_t_soic8"></span></label>
+              <label class="switch-row"><input type="checkbox" role="switch" data-test="fine"><span class="switch" aria-hidden="true"></span><span data-i18n="ld_t_fine"></span></label>
+              <label class="switch-row"><input type="checkbox" role="switch" data-test="passives"><span class="switch" aria-hidden="true"></span><span data-i18n="ld_t_passives"></span></label>
+              <label class="switch-row"><input type="checkbox" role="switch" data-test="rings"><span class="switch" aria-hidden="true"></span><span data-i18n="ld_t_rings"></span></label></div>
+              </section>
+            </div>
+            <div class="lad-foot">
+          <div id="ld-notes" aria-live="polite"></div>
+          <p class="summary" id="ld-summary" aria-live="polite"></p>
+          <div class="row gap fill"><button class="btn primary" id="btn-ld-generate" data-i18n="ld_generate" disabled></button></div>
+          <p class="small gen-reason" id="ld-gen-reason" aria-live="polite"></p>
+          <p class="small gen-done" id="ld-gen-done" aria-live="polite" hidden></p>
+            </div>
+          </div>
+        </div>
+        <div class="lad-main">
+        <section class="card lad-preview"><div class="lad-head"><h2 data-i18n="ld_preview"></h2>
+              <div class="seg" id="ld-seg" role="radiogroup" data-i18n-aria="view_mode">
+                <button role="radio" data-ldview="material" aria-checked="true" data-i18n="mode_material"></button>
+                <button role="radio" data-ldview="uv" aria-checked="false" data-i18n="mode_light"></button>
+              </div>
+              <div class="grp">
+                <button class="btn sm icon" id="btn-ld-zoom-out" data-i18n-title="zoom_out" data-i18n-aria="zoom_out"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/></svg></button>
+                <button class="btn sm icon" id="btn-ld-zoom-in" data-i18n-title="zoom_in" data-i18n-aria="zoom_in"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg></button>
+                <button class="btn sm icon" id="btn-ld-fit" data-i18n-title="ld_fit" data-i18n-aria="ld_fit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V5h4M20 9V5h-4M4 15v4h4M20 15v4h-4"/></svg></button>
+              </div></div>
+            <div class="lad-view" id="ld-view" tabindex="0" role="img" data-i18n-aria="ld_view_label"></div>
+            <div class="lad-cap"><span id="ld-dims"></span></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== view: settings ===== -->
+  <main id="view-settings" class="view page" role="tabpanel" aria-labelledby="tab-settings" hidden>
+    <div class="page-inner">
+      <h1 data-i18n="settings_title"></h1>
+      <section class="card"><h2 data-i18n="s_prefs"></h2>
+        <label class="field inline"><span data-i18n="s_outline_min"></span><input id="set-outline" type="number" min="0.05" step="0.05" value="0.3"></label>
+        <p class="muted small" data-i18n="s_outline_hint"></p>
+        <div class="field" style="margin-top:14px"><span data-i18n="s_menubar"></span>
+          <div class="swatches" id="mb-swatches" role="radiogroup" data-i18n-aria="s_menubar"></div></div>
+        <p class="muted small" data-i18n="s_menubar_hint"></p>
+      </section>
+      <section class="card"><h2 data-i18n="s_printers"></h2><div id="printer-cards"></div>
+        <p class="muted small" data-i18n="s_printers_hint"></p></section>
+      <section class="card" id="card-recipes"><div class="row gap wrap between"><h2 data-i18n="s_recipes"></h2>
+          <button class="btn sm icon" id="btn-recipe-new2" data-i18n-title="ex_recipe_new" data-i18n-aria="ex_recipe_new"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+        <div id="tbl-recipes"></div><p class="muted small" id="recipes-problems" hidden></p><p class="muted small" data-i18n="s_recipes_hint"></p></section>
+      <section class="card" id="card-nolib" hidden><h2 data-i18n="s_recipes"></h2><p class="muted small" data-i18n="s_nolib_card"></p></section>
+    </div>
+  </main>
+
+  <!-- ===== view: help ===== -->
+  <main id="view-help" class="view page" role="tabpanel" aria-labelledby="tab-help" hidden>
+    <div class="page-inner">
+      <h1 data-i18n="help_title"></h1>
+      <p class="muted" data-i18n="help_intro"></p>
+      <section class="card"><h2 data-i18n="shortcuts"></h2>
+        <table class="keys" id="keys-table"></table></section>
+      <section class="card" id="help-license"><h2 data-i18n="help_license_title"></h2>
+        <p data-i18n="help_license_text"></p>
+        <p><a class="src-link" id="source-link" href="https://github.com/shad0w82/GerberSLAp" target="_blank" rel="noopener noreferrer" data-i18n="help_source_link"></a></p></section>
+    </div>
+  </main>
+</div>
+
+<!-- drag and drop overlay, loading, toast -->
+<div id="drop" class="overlay" hidden><div class="drop-box"><h2 data-i18n="drop_title"></h2><p data-i18n="drop_text"></p></div></div>
+<div id="loading" class="overlay" hidden role="status"><div class="spinner" aria-hidden="true"></div><span data-i18n="loading"></span></div>
+<div id="lang-menu" class="langmenu" role="listbox" tabindex="-1" hidden></div>
+<div id="tip" class="tip" role="tooltip" hidden></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<dialog id="dlg-restore" aria-labelledby="restore-title">
+  <form method="dialog">
+    <h2 id="restore-title" data-i18n="restore_title"></h2>
+    <p id="restore-text"></p>
+    <div class="row gap end"><button value="discard" class="btn" data-i18n="restore_discard"></button>
+      <button value="restore" class="btn primary" data-i18n="restore_ok"></button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-recipe" aria-labelledby="recipe-title">
+  <form method="dialog" id="form-recipe">
+    <h2 id="recipe-title"></h2>
+    <p class="muted small" id="recipe-hint"></p>
+    <label class="field rc-name-field"><span data-i18n="ex_name"></span><input id="rc-name" type="text" maxlength="200" required></label>
+    <div class="field rc-pol-field"><span data-i18n="ex_polarity"></span>
+      <div class="pol-switch" id="rc-pol" role="radiogroup" data-i18n-aria="ex_polarity">
+        <label class="chip pos"><input type="radio" name="rc-polarity" value="positive" checked><span data-i18n="pol_positive"></span></label>
+        <button type="button" class="pol-track" id="rc-pol-toggle" tabindex="-1" aria-hidden="true"><span class="pol-knob"></span></button>
+        <label class="chip neg"><input type="radio" name="rc-polarity" value="negative"><span data-i18n="pol_negative"></span></label>
+      </div>
+    </div>
+    <fieldset class="frame rc-infos">
+      <legend data-i18n="ex_infos"></legend>
+      <label class="field"><span data-i18n="resist"></span><input id="rc-resist" type="text" maxlength="200"></label>
+      <label class="field"><span data-i18n="ex_development"></span><input id="rc-dev" type="text" maxlength="200"></label>
+      <label class="field"><span data-i18n="ex_notes"></span><textarea id="rc-notes" rows="2" maxlength="2000"></textarea></label>
+    </fieldset>
+    <div class="row gap end rev"><button value="ok" class="btn primary" data-i18n="ex_btn_save"></button>
+      <button value="cancel" class="btn" formnovalidate data-i18n="cancel"></button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-dosage" aria-labelledby="dosage-title">
+  <form method="dialog">
+    <h2 id="dosage-title"></h2>
+    <p class="muted small" id="dosage-hint"></p>
+    <label class="field"><span data-i18n="ex_dosage_name"></span><input id="ds-name" type="text" maxlength="60"></label>
+    <label class="field"><span data-i18n="ex_notes"></span><input id="ds-note" type="text" maxlength="500"></label>
+    <div class="row gap end rev"><button value="ok" class="btn primary" data-i18n="ex_btn_save"></button>
+      <button value="cancel" class="btn" data-i18n="cancel"></button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-sdosage" aria-labelledby="sdos-title">
+  <form method="dialog">
+    <h2 id="sdos-title"></h2>
+    <p class="muted small" id="sdos-hint"></p>
+    <label class="field"><span data-i18n="printer"></span><select id="sd-printer"></select></label>
+    <div class="grid3">
+      <label class="field"><span data-i18n="ex_total"></span><input id="sd-total" type="number" min="0" step="1"></label>
+      <label class="field"><span data-i18n="ex_pulses"></span><input id="sd-pulses" type="number" min="1" step="1"></label>
+      <label class="field"><span data-i18n="ex_rest"></span><input id="sd-rest" type="number" min="0" step="0.5"></label>
+    </div>
+    <p class="small flash-note" id="sd-flash" hidden></p>
+    <label class="field"><span data-i18n="ex_dosage_name"></span><input id="sd-name" type="text" maxlength="60"></label>
+    <label class="field"><span data-i18n="ex_notes"></span><input id="sd-note" type="text" maxlength="500"></label>
+    <div class="row gap end rev"><button value="ok" id="sd-ok" class="btn primary" data-i18n="ex_btn_save"></button>
+      <button value="cancel" class="btn" data-i18n="cancel"></button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-confirm" aria-labelledby="confirm-title">
+  <form method="dialog">
+    <h2 id="confirm-title"></h2>
+    <p id="confirm-text"></p>
+    <div class="row gap end"><button value="cancel" class="btn" data-i18n="cancel"></button>
+      <button value="ok" class="btn primary" data-i18n="ex_confirm_ok"></button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-discard" aria-labelledby="discard-title">
+  <form method="dialog">
+    <h2 id="discard-title" data-i18n="discard_title"></h2>
+    <p data-i18n="discard_text"></p>
+    <div class="row gap end"><button value="cancel" class="btn" data-i18n="cancel"></button>
+      <button value="ok" class="btn primary" data-i18n="discard_ok"></button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-dup" aria-labelledby="dup-title">
+  <form method="dialog">
+    <h2 id="dup-title" data-i18n="dup_title"></h2>
+    <p class="muted small" data-i18n="dup_hint"></p>
+    <div class="grid2">
+      <label class="field"><span data-i18n="dup_cols"></span><input id="dup-cols" type="number" min="1" max="10" value="2"></label>
+      <label class="field"><span data-i18n="dup_rows"></span><input id="dup-rows" type="number" min="1" max="10" value="1"></label>
+      <label class="field"><span data-i18n="dup_px"></span><input id="dup-px" type="number" step="0.1" value="2"></label>
+      <label class="field"><span data-i18n="dup_py"></span><input id="dup-py" type="number" step="0.1" value="2"></label>
+    </div>
+    <p class="small" id="dup-info" aria-live="polite"></p>
+    <div class="row gap end rev"><button value="ok" id="dup-ok" class="btn primary" data-i18n="create"></button>
+      <button value="cancel" class="btn" data-i18n="cancel"></button></div>
+  </form>
+</dialog>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

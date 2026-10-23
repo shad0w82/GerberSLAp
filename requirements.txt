@@ -1,0 +1,10 @@
+# Runtime dependencies, pinned to the versions the geometry tests were run against.
+# gerbonara 1.6.3 needs Python >= 3.12 and is patched at import (gerberslap/core/gerber_io.py).
+numpy==2.5.4
+pillow==12.3.0
+shapely==2.2.0
+gerbonara==1.6.3
+pydantic==2.14.1
+fastapi==0.143.0
+uvicorn==0.54.0
+python-multipart==0.0.32

@@ -1,0 +1,24 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# File CTB: contengono l'avviso di copyright di CBD Technology, non vanno nel repository
+# (vale anche per i file generati, che ne copiano l'avviso dal template)
+*.ctb
+
+# Cartella dati dell'app (i template .ctb delle stampanti e le ricette): diventa il volume Docker, non va nel repository
+/data/
+
+# Materiale di lavoro di chi sviluppa: resta sul disco ma non è il programma e non va nel repository
+/experiments/
+/mockup/
+/samples/
+/PIANO.md
+/RICETTE_E_DOSAGGI.md
+/CLAUDE.md
+/.claude/

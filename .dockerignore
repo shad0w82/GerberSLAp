@@ -1,0 +1,14 @@
+# What goes into the image is a list, not an exclusion: everything is left out except what the program needs.
+# In particular no .ctb file (it carries the manufacturer's copyright notice), no data folder, no tests, samples, experiments or documents.
+*
+
+!requirements.txt
+!LICENSE
+!gerberslap
+!gerberslap/**
+
+# ... and of what is let in, what is not the program (the documents that sit next to a driver stay in the repository)
+**/__pycache__
+**/*.pyc
+**/*.ctb
+**/docs
