@@ -6,7 +6,7 @@ GerberSLAp uses a resin printer (a monochrome LCD with 405 nm UV light) as an **
 
 It is a web app: a small local Python server (FastAPI) and a page in plain JavaScript. You use it from the browser, locally or from a Docker container on a home server.
 
-Today the **Creality LD-002H** is supported (2K mono LCD, `.ctb` version 5 files). Other printers are added with a driver, without touching the rest (see [Architecture](docs/en/ARCHITECTURE.md) and the [guide to adding one](docs/en/NEW_PRINTER.md)).
+Today the **Creality LD-002H** is supported (2K mono LCD, `.ctb` version 5 files). Other printers are added with a driver, without touching the rest (see [Architecture](docs/en/architecture/overview.md) and the [guide to adding one](docs/en/development/new-printer/driver.md)).
 
 ## What it does
 
@@ -25,7 +25,7 @@ Current limits: it is a single-sided version (a file exposes the layers that are
 
 - **Python 3.12 or newer** (tried with 3.14).
 - A recent browser (tried with Chrome): the page uses IndexedDB and Web Locks.
-- **The printer template**: a `.ctb` file made with ChiTuBox, from which the app copies the movement. It is not in the repository (it contains the copyright notice of CBD Technology) and has to be prepared once: see [Installation](docs/en/INSTALLATION.md#the-printer-template).
+- **The printer template**: a `.ctb` file made with ChiTuBox, from which the app copies the movement. It is not in the repository (it contains the copyright notice of CBD Technology) and has to be prepared once: see [Installation](docs/en/installation/requirements.md#the-printer-template).
 - Optional, only for the tests: Node.js.
 
 Tried on macOS (Apple Silicon). The code is plain Python and JavaScript and uses nothing specific to the system.
@@ -37,14 +37,14 @@ git clone https://github.com/shad0w82/GerberSLAp.git GerberSLAp && cd GerberSLAp
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 
-# once only: the printer template (see docs/en/INSTALLATION.md)
+# once only: the printer template (see docs/en/installation/requirements.md)
 .venv/bin/python -m gerberslap.web --install-template ld002h /path/to/template.ctb
 
 # start (from this folder)
 .venv/bin/python -m gerberslap.web
 ```
 
-Then open **http://127.0.0.1:8800** in the browser. The server listens only on this computer; to stop it, `Ctrl+C`. The start-up options, the data folder, the printer configuration, the Docker installation and troubleshooting are in [docs/en/INSTALLATION.md](docs/en/INSTALLATION.md).
+Then open **http://127.0.0.1:8800** in the browser. The server listens only on this computer; to stop it, `Ctrl+C`. The start-up options, the data folder, the printer configuration, the Docker installation and troubleshooting are in [docs/en/installation/](docs/en/installation/).
 
 ## Docker in brief
 
@@ -57,7 +57,7 @@ docker compose run --rm -v "$PWD/template:/in:ro" gerberslap --install-template 
 docker compose up -d
 ```
 
-Then open **http://127.0.0.1:8800**. The image (arm64 and amd64) holds no `.ctb` file; the template and the recipes live in the `gerberslap-data` volume. To reach it from other computers, the environment variables and the rest: [docs/en/INSTALLATION.md](docs/en/INSTALLATION.md#docker-installation).
+Then open **http://127.0.0.1:8800**. The image (arm64 and amd64) holds no `.ctb` file; the template and the recipes live in the `gerberslap-data` volume. To reach it from other computers, the environment variables and the rest: [docs/en/installation/install.md](docs/en/installation/install.md#docker-installation).
 
 ## Usage in brief
 
@@ -71,9 +71,10 @@ There is no complete user manual yet.
 
 ## Documentation
 
-- [docs/en/INSTALLATION.md](docs/en/INSTALLATION.md): requirements, the printer template, native and Docker installation, options, network and security, common problems.
-- [docs/en/ARCHITECTURE.md](docs/en/ARCHITECTURE.md): how the app is built: layers, data flow, data model, pipeline, drivers, server, page, tests and how to extend it.
-- [docs/en/NEW_PRINTER.md](docs/en/NEW_PRINTER.md): for developers: how to write the driver of a new printer, and how to create and install its template.
+- [docs/en/installation/](docs/en/installation/): requirements, the printer template, native and Docker installation, configuration, network and security, common problems.
+- [docs/en/usage/](docs/en/usage/): the user manual (being written).
+- [docs/en/architecture/](docs/en/architecture/): how the app is built: layers, data flow, data model, pipeline, drivers, server, page.
+- [docs/en/development/](docs/en/development/): for developers: how to contribute, the tests, how to write the driver of a new printer, and how to create and install its template.
 - [gerberslap/printers/ld002h/docs/ctb_v5_ld002h_formato.md](gerberslap/printers/ld002h/docs/ctb_v5_ld002h_formato.md) (in Italian): the `.ctb` v5 format and the verified behaviour of the LD-002H.
 
 ## Tests
@@ -91,7 +92,7 @@ GerberSLAp is free software, released under the **GNU Affero General Public Lice
 
 Copyright (C) 2026 shad0w82.
 
-**Hosting it on a public server is at your own risk and peril**, and the project neither intends nor supports it: the app has no authentication or users, and the server generates files from a `.ctb` template that carries the copyright notice of CBD Technology (see [Installation](docs/en/INSTALLATION.md#network-and-security)). Whoever does it with a modified version must also change the "Source code and licence" link on the Help page (`gerberslap/web/static/index.html`, `id="source-link"`) so that it points to the source of their version.
+**Hosting it on a public server is at your own risk and peril**, and the project neither intends nor supports it: the app has no authentication or users, and the server generates files from a `.ctb` template that carries the copyright notice of CBD Technology (see [Installation](docs/en/installation/configuration.md#network-and-security)). Whoever does it with a modified version must also change the "Source code and licence" link on the Help page (`gerberslap/web/static/index.html`, `id="source-link"`) so that it points to the source of their version.
 
 ## Third parties
 

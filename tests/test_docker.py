@@ -73,7 +73,7 @@ def test_the_build_context_is_the_program_and_nothing_else():
     assert not [f for f in files if "/docs/" in f]                                                                          # the documents that sit next to a driver stay in the repository
 
 
-@pytest.mark.parametrize("path", [".venv/bin/python", ".git/config", "data/printers/ld002h/template.ctb", "samples/speedCube.ctb", "tests/test_docker.py", "docs/en/INSTALLATION.md",
+@pytest.mark.parametrize("path", [".venv/bin/python", ".git/config", "data/printers/ld002h/template.ctb", "samples/speedCube.ctb", "tests/test_docker.py", "docs/en/installation/install.md", "mkdocs.yml", "mkdocs-require.txt", "overrides/partials/toc.html", ".github/workflows/docs.yml",
                                   "experiments/fase2/external/x.zip", "mockup/index.html", "README.md", "Dockerfile", "compose.yaml", "gerberslap/printers/ld002h/template.ctb",
                                   "gerberslap/web/__pycache__/app.cpython-314.pyc", "ctbio.ctb", "assets/other/x.png", "LICENSE.ctb",
                                   "gerberslap/printers/ld002h/docs/pcb_ctb.py", "gerberslap/printers/ld002h/docs/ctb_v5_ld002h_formato.md"])

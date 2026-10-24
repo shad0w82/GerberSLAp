@@ -6,7 +6,7 @@ GerberSLAp usa una stampante a resina (schermo LCD monocromatico e luce UV a 405
 
 È un'app con interfaccia web: un piccolo server Python locale (FastAPI) e una pagina in JavaScript puro. Si usa dal browser, in locale o da un container Docker su un home server.
 
-Oggi è supportata la **Creality LD-002H** (LCD mono 2K, file `.ctb` versione 5). Le altre stampanti si aggiungono con un driver, senza toccare il resto (vedi [Architettura](docs/ARCHITETTURA.md) e la [guida per aggiungerne una](docs/NUOVA_STAMPANTE.md)).
+Oggi è supportata la **Creality LD-002H** (LCD mono 2K, file `.ctb` versione 5). Le altre stampanti si aggiungono con un driver, senza toccare il resto (vedi [Architettura](docs/it/architecture/overview.md) e la [guida per aggiungerne una](docs/it/development/new-printer/driver.md)).
 
 ## Cosa fa
 
@@ -25,7 +25,7 @@ Limiti attuali: è una versione a singola faccia (un file espone i layer accesi 
 
 - **Python 3.12 o più recente** (provato con 3.14).
 - Un browser recente (provato con Chrome): la pagina usa IndexedDB e Web Locks.
-- **Il template della stampante**: un file `.ctb` fatto con ChiTuBox, da cui l'app copia il movimento. Non è nel repository (contiene l'avviso di copyright di CBD Technology) e va preparato una volta: vedi [Installazione](docs/INSTALLAZIONE.md#il-template-della-stampante).
+- **Il template della stampante**: un file `.ctb` fatto con ChiTuBox, da cui l'app copia il movimento. Non è nel repository (contiene l'avviso di copyright di CBD Technology) e va preparato una volta: vedi [Installazione](docs/it/installation/requirements.md#il-template-della-stampante).
 - Facoltativo, solo per i test: Node.js.
 
 Provato su macOS (Apple Silicon). Il codice è Python e JavaScript puri e non usa nulla di specifico del sistema.
@@ -37,14 +37,14 @@ git clone https://github.com/shad0w82/GerberSLAp.git GerberSLAp && cd GerberSLAp
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 
-# una volta sola: il template della stampante (vedi docs/INSTALLAZIONE.md)
+# una volta sola: il template della stampante (vedi docs/it/installation/requirements.md)
 .venv/bin/python -m gerberslap.web --install-template ld002h /percorso/del/template.ctb
 
 # avvio (da questa cartella)
 .venv/bin/python -m gerberslap.web
 ```
 
-Si apre poi **http://127.0.0.1:8800** nel browser. Il server ascolta solo su questo computer; per fermarlo, `Ctrl+C`. Le opzioni di avvio, la cartella dati, la configurazione della stampante, l'installazione con Docker e la risoluzione dei problemi sono in [docs/INSTALLAZIONE.md](docs/INSTALLAZIONE.md).
+Si apre poi **http://127.0.0.1:8800** nel browser. Il server ascolta solo su questo computer; per fermarlo, `Ctrl+C`. Le opzioni di avvio, la cartella dati, la configurazione della stampante, l'installazione con Docker e la risoluzione dei problemi sono in [docs/it/installation/](docs/it/installation/).
 
 ## Con Docker in breve
 
@@ -57,7 +57,7 @@ docker compose run --rm -v "$PWD/template:/in:ro" gerberslap --install-template 
 docker compose up -d
 ```
 
-Si apre poi **http://127.0.0.1:8800**. L'immagine (arm64 e amd64) non contiene nessun `.ctb`; template e ricette stanno nel volume `gerberslap-data`. Per raggiungerla da altri computer, le variabili d'ambiente e il resto: [docs/INSTALLAZIONE.md](docs/INSTALLAZIONE.md#installazione-con-docker).
+Si apre poi **http://127.0.0.1:8800**. L'immagine (arm64 e amd64) non contiene nessun `.ctb`; template e ricette stanno nel volume `gerberslap-data`. Per raggiungerla da altri computer, le variabili d'ambiente e il resto: [docs/it/installation/install.md](docs/it/installation/install.md#installazione-con-docker).
 
 ## Uso in breve
 
@@ -71,9 +71,10 @@ Un manuale d'uso completo non c'è ancora.
 
 ## Documentazione
 
-- [docs/INSTALLAZIONE.md](docs/INSTALLAZIONE.md): requisiti, il template della stampante, installazione nativa e con Docker, opzioni, rete e sicurezza, problemi frequenti.
-- [docs/ARCHITETTURA.md](docs/ARCHITETTURA.md): come è fatta l'app: strati, flusso dei dati, modello dati, pipeline, driver, server, pagina, test e come estenderla.
-- [docs/NUOVA_STAMPANTE.md](docs/NUOVA_STAMPANTE.md): per chi sviluppa: come scrivere il driver di una stampante nuova, e come creare e installare il suo template.
+- [docs/it/installation/](docs/it/installation/): requisiti, il template della stampante, installazione nativa e con Docker, configurazione, rete e sicurezza, problemi frequenti.
+- [docs/it/usage/](docs/it/usage/): il manuale d'uso (in scrittura).
+- [docs/it/architecture/](docs/it/architecture/): come è fatta l'app: strati, flusso dei dati, modello dati, pipeline, driver, server, pagina.
+- [docs/it/development/](docs/it/development/): per chi sviluppa: come contribuire, i test e come scrivere il driver di una stampante nuova, e come creare e installare il suo template.
 - [gerberslap/printers/ld002h/docs/ctb_v5_ld002h_formato.md](gerberslap/printers/ld002h/docs/ctb_v5_ld002h_formato.md): il formato `.ctb` v5 e il comportamento verificato della LD-002H.
 
 ## Test
@@ -91,7 +92,7 @@ GerberSLAp è software libero, distribuito con la licenza **GNU Affero General P
 
 Copyright (C) 2026 shad0w82.
 
-**Ospitarlo su un server pubblico è a proprio rischio e pericolo**, e il progetto non lo prevede né lo supporta: l'app non ha autenticazione né utenti, e il server genera file a partire da un template `.ctb` che contiene l'avviso di copyright di CBD Technology (vedi [Installazione](docs/INSTALLAZIONE.md#rete-e-sicurezza)). Chi lo fa con una versione modificata deve anche cambiare il link «Codice sorgente e licenza» della pagina Aiuto (`gerberslap/web/static/index.html`, `id="source-link"`) perché punti al sorgente della sua versione.
+**Ospitarlo su un server pubblico è a proprio rischio e pericolo**, e il progetto non lo prevede né lo supporta: l'app non ha autenticazione né utenti, e il server genera file a partire da un template `.ctb` che contiene l'avviso di copyright di CBD Technology (vedi [Installazione](docs/it/installation/configuration.md#rete-e-sicurezza)). Chi lo fa con una versione modificata deve anche cambiare il link «Codice sorgente e licenza» della pagina Aiuto (`gerberslap/web/static/index.html`, `id="source-link"`) perché punti al sorgente della sua versione.
 
 ## Terze parti
 

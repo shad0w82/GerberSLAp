@@ -1,7 +1,7 @@
 # GerberSLAp with Docker Compose.
 #
 #   docker compose build
-#   docker compose run --rm -v "$PWD/template:/in:ro" gerberslap --install-template ld002h /in/template.ctb     (once only: the printer's template, see docs/en/INSTALLATION.md)
+#   docker compose run --rm -v "$PWD/template:/in:ro" gerberslap --install-template ld002h /in/template.ctb     (once only: the printer's template, see docs/en/installation/requirements.md)
 #   docker compose up -d
 #
 # and the app is at http://127.0.0.1:8800. The volume holds the template and the recipes: back it up.

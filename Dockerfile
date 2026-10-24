@@ -1,6 +1,6 @@
 # GerberSLAp: the app on http://<host>:8800, with its data folder in the volume /data.
 #
-# The image holds the program and nothing else: no .ctb file (the printer's template is installed in the volume, see docs/en/INSTALLATION.md), no data, no tests.
+# The image holds the program and nothing else: no .ctb file (the printer's template is installed in the volume, see docs/en/installation/requirements.md), no data, no tests.
 # One container per volume. The app has no authentication: do not expose it to the Internet.
 FROM python:3.14-slim
 
