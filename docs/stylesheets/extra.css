@@ -1,0 +1,196 @@
+/* Look of the documentation: teal like the app's MenuBar, Inter for the text, uppercase labels, frosted-glass header.
+   The measures of the header and of the text were taken from the Zensical documentation. */
+
+/* ---- Fonts: served by the site itself (docs/assets/fonts), no request goes to a font provider ---- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/inter-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/inter-latin-wght-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("../assets/fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+:root {
+  --md-text-font: "Inter";
+  --md-code-font: "JetBrains Mono";
+}
+
+/* ---- Colours ---- */
+:root {
+  --md-primary-fg-color: #167580;
+  --md-primary-fg-color--light: #2a95a1;
+  --md-primary-fg-color--dark: #0f5760;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: #ffffffb3;
+  --md-accent-fg-color: #0f8a99;
+}
+[data-md-color-scheme="slate"] {
+  --md-typeset-a-color: #5cc6d3;
+  --md-accent-fg-color: #5cc6d3;
+}
+
+/* ---- Text: 15 px, line height 1.8, slightly tight letters, bold headings with tight tracking ---- */
+.md-typeset {
+  font-size: .75rem;
+  line-height: 1.8;
+  letter-spacing: -.01em;
+}
+.md-typeset h1 { font-size: 1.875em; font-weight: 700; letter-spacing: -.025em; line-height: 1.3; color: var(--md-typeset-color); margin: 0 0 1.2em; }
+.md-typeset h2 { font-size: 1.5em; font-weight: 700; letter-spacing: -.025em; line-height: 1.4; color: var(--md-typeset-color); }
+.md-typeset h3 { font-size: 1.2em; font-weight: 600; letter-spacing: -.02em; line-height: 1.5; color: var(--md-typeset-color); }
+.md-typeset h4 { font-size: 1em; font-weight: 600; letter-spacing: -.01em; color: var(--md-typeset-color); }
+
+/* The breathing room above a heading is padding, not margin, and a clicked heading lands at 46 px from the top.
+   "In questa pagina" counts a heading as reached when its top is above 48 px (the height of the header); Material lands
+   it at 72 px, so the entry stayed dark until the page moved a little further. */
+.md-typeset :target { --md-scroll-margin: 2.3rem; }
+.md-typeset h2 { padding-top: 1.2rem; margin: calc(2.2em - 1.2rem) 0 .8em; }
+.md-typeset h3 { padding-top: 1.2rem; margin: calc(1.8em - 1.2rem) 0 .6em; }
+.md-typeset h4 { padding-top: 1.2rem; margin-top: 0; }
+
+/* ---- Header: solid teal at the top of the page, frosted glass as soon as the page scrolls ---- */
+.md-header {
+  transition: background-color .3s, box-shadow .3s, backdrop-filter .3s;
+}
+.md-header--shadow {
+  background-color: rgba(8, 56, 64, .58);
+  -webkit-backdrop-filter: saturate(1.8) blur(5px);
+  backdrop-filter: saturate(1.8) blur(5px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .12);
+}
+.md-header__title .md-header__topic { font-weight: 700; }
+/* 20 px icons in 36 px buttons, a 178 x 32 px search box with 8 px corners and 14 px text, an 11 px repository block */
+.md-header__option .md-header__button { width: 1.8rem; height: 1.8rem; padding: .4rem; margin: .2rem; box-sizing: border-box; }
+.md-header__option .md-header__button svg { width: 1rem; height: 1rem; }
+.md-search__inner { width: 8.9rem; }
+.md-search__form {
+  height: 1.6rem;
+  border-radius: .4rem;
+  background-color: color-mix(in srgb, #fff 16%, transparent);
+}
+.md-search__form:hover { background-color: color-mix(in srgb, #fff 24%, transparent); }
+.md-search__input { height: 1.6rem; font-size: .7rem; padding-left: 1.9rem; }
+.md-search__input::placeholder { color: color-mix(in srgb, #fff 80%, transparent); }
+.md-search__icon[for="__search"] { top: .3rem; left: .5rem; }
+.md-search__icon[for="__search"] svg { width: 1rem; height: 1rem; }
+.md-source { font-size: .55rem; }
+
+/* ---- Tabs: a plain bar in the page colour (it scrolls away with the page), titles in capitals ---- */
+.md-tabs {
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: inset 0 -1px 0 var(--md-default-fg-color--lightest);
+}
+.md-tabs__link {
+  color: var(--md-default-fg-color--light);
+  opacity: 1;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.md-tabs__link:hover,
+.md-tabs__item--active .md-tabs__link { color: var(--md-default-fg-color); }
+.md-tabs__item--active {
+  box-shadow: inset 0 -2px 0 var(--md-accent-fg-color);
+  font-weight: 700;
+}
+
+/* ---- Page layout: the side menus start where they stick, and each scrolls on its own ---- */
+.md-main__inner { margin-top: 0; }
+.md-content__inner { padding-top: 2.1rem; }
+.md-sidebar__scrollwrap { overscroll-behavior: contain; }
+/* A page with a table of contents ends with an empty band, so that its last heading can scroll up to the line where the
+   table of contents counts it as reached (otherwise the last entry never lights up). */
+.md-main__inner:has(.md-sidebar--secondary:not([hidden])) .md-content__inner::after {
+  content: "";
+  display: block;
+  height: max(0px, calc(100vh - 16rem));
+}
+
+/* ---- Left menu: rounded rows, tinted current page, headings in capitals with a hairline ---- */
+.md-sidebar--primary .md-nav__link {
+  padding: .3rem .6rem;
+  margin-top: .1rem;
+  border-radius: .4rem;
+}
+.md-sidebar--primary .md-nav__link:hover { background-color: var(--md-default-fg-color--lightest); }
+.md-sidebar--primary .md-nav__link--active {
+  background-color: color-mix(in srgb, var(--md-accent-fg-color) 12%, transparent);
+  color: var(--md-accent-fg-color);
+  font-weight: 500;
+}
+.md-sidebar--primary .md-nav__item--section > .md-nav__link,
+.md-sidebar--primary .md-nav--primary > .md-nav__title {
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+}
+/* The name of the tab and the real sub-sections share one heading style */
+.md-sidebar--primary .md-nav--primary > .md-nav__list > .md-nav__item--section > label.md-nav__link,
+.md-sidebar--primary .md-nav__item--section .md-nav__item--section > label.md-nav__link {
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color);
+  padding-bottom: .5rem;
+  margin-bottom: .3rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0;
+}
+.md-sidebar--primary .md-nav__item--section .md-nav__item--section > label.md-nav__link { margin-top: 1rem; }
+/* Material draws a white shadow under the sticky label of a section: it cut the top of the first highlighted item */
+.md-sidebar .md-nav__title,
+.md-sidebar .md-nav__link { box-shadow: none !important; }
+
+/* ---- Right-hand "In questa pagina": a small label, and the heading being read in bold ---- */
+.md-sidebar--secondary .md-nav__title {
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  padding-bottom: .5rem;
+  margin-bottom: .3rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+.md-sidebar--secondary .md-nav__link--active {
+  font-weight: 700;
+  color: var(--md-accent-fg-color);
+}
+
+/* ---- Tables ---- */
+.md-typeset table:not([class]) td { vertical-align: top; }
+/* The header row is tinted, underlined and in capitals, so it reads as a header and not as a first row */
+.md-typeset table:not([class]) thead th {
+  background-color: color-mix(in srgb, var(--md-accent-fg-color) 10%, var(--md-default-bg-color));
+  border-bottom: 2px solid var(--md-accent-fg-color);
+  color: var(--md-default-fg-color);
+  font-size: .55rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+/* Short first-column cells do not wrap (marked by javascripts/tables.js) */
+.md-typeset table td.nowrap,
+.md-typeset table th.nowrap { white-space: nowrap; }
+
+/* ---- Home page: four cards in a single row on wide screens ---- */
+.md-typeset .grid.cards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+}

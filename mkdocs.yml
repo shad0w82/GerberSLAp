@@ -1,0 +1,159 @@
+# Documentation of GerberSLAp: Material for MkDocs + mkdocs-static-i18n.
+# The texts live in docs/it/ (default language, published at the root) and docs/en/ (published under /en/),
+# with the same paths and file names in both languages. The title of a page is its H1; only the titles of
+# tabs and groups are translated here (nav_translations). The versions to use are in mkdocs-require.txt.
+
+site_name: GerberSLAp
+site_url: https://shad0w82.github.io/GerberSLAp/
+repo_url: https://github.com/shad0w82/GerberSLAp
+repo_name: shad0w82/GerberSLAp
+
+theme:
+  name: material
+  language: it
+  custom_dir: overrides
+  font: false              # Inter and JetBrains Mono are served by the site (docs/assets/fonts)
+  icon:
+    logo: material/printer-3d
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.footer
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-auto
+        name: "Tema automatico: passa al chiaro"
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: "Tema chiaro: passa allo scuro"
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: "Tema scuro: passa all'automatico"
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/tables.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+validation:
+  nav:
+    omitted_files: info
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn
+    anchors: warn
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: it
+          default: true
+          name: Italiano
+          site_description: >-
+            Prepara l'esposizione di un circuito stampato con una stampante a resina:
+            dai file Gerber al file di stampa.
+          copyright: >-
+            Copyright © 2026 shad0w82 ·
+            <a href="https://github.com/shad0w82/GerberSLAp/blob/main/LICENSE">GNU AGPL-3.0</a>
+          admonition_translations:
+            note: Nota
+            info: Informazione
+            tip: Suggerimento
+            warning: Attenzione
+            danger: Pericolo
+            example: Esempio
+        - locale: en
+          name: English
+          site_description: >-
+            Prepare the exposure of a printed circuit board with a resin printer:
+            from Gerber files to the print file.
+          copyright: >-
+            Copyright © 2026 shad0w82 ·
+            <a href="https://github.com/shad0w82/GerberSLAp/blob/main/LICENSE">GNU AGPL-3.0</a>
+          theme:
+            palette:
+              - toggle:
+                  name: "Automatic theme: switch to light"
+              - toggle:
+                  name: "Light theme: switch to dark"
+              - toggle:
+                  name: "Dark theme: switch to automatic"
+          nav_translations:
+            Installazione: Installation
+            Utilizzo: Usage
+            Sviluppo: Development
+            Architettura: Architecture
+            Aggiungere una stampante: Adding a printer
+
+nav:
+  # The i18n plugin looks for the home page inside the nav, so for now it is a tab (still to be decided).
+  - Home: index.md
+  - Installazione:
+      - installation/requirements.md
+      - installation/install.md
+      - installation/configuration.md
+      - installation/maintenance.md
+  - Utilizzo:
+      - usage/introduction.md
+      - usage/first-steps.md
+      - usage/interface.md
+      - usage/boards.md
+      - usage/placement.md
+      - usage/exposure.md
+      - usage/calibration-ladder.md
+      - usage/settings.md
+      - usage/projects.md
+      - usage/printing.md
+      - usage/troubleshooting.md
+  - Sviluppo:
+      - development/contributing.md
+      - Aggiungere una stampante:
+          - development/new-printer/driver.md
+          - development/new-printer/example.md
+  - Architettura:
+      - architecture/overview.md
+      - architecture/pipeline.md
+      - architecture/web-app.md

@@ -1,0 +1,9 @@
+Fonts served with the documentation site (self-hosted: no request goes to a font provider).
+
+  inter-latin-wght-normal.woff2, inter-latin-wght-italic.woff2
+      Inter (variable, Latin subset), © The Inter Project Authors, SIL Open Font License 1.1 (LICENSE-Inter.txt).
+      From the npm package @fontsource-variable/inter 5.3.0.
+
+  jetbrains-mono-latin-wght-normal.woff2
+      JetBrains Mono (variable, Latin subset), © The JetBrains Mono Project Authors, SIL Open Font License 1.1
+      (LICENSE-JetBrainsMono.txt). From the npm package @fontsource-variable/jetbrains-mono 5.3.0.

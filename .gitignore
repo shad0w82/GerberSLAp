@@ -1,5 +1,6 @@
 # Python
 .venv/
+.venv-docs/
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -22,3 +23,6 @@ __pycache__/
 /RICETTE_E_DOSAGGI.md
 /CLAUDE.md
 /.claude/
+
+# Documentazione costruita da MkDocs
+/site/
