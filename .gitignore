@@ -26,3 +26,6 @@ __pycache__/
 
 # Documentazione costruita da MkDocs
 /site/
+
+# Screenshot tool: its dependencies are installed on demand
+/tools/docs_screenshots/node_modules/

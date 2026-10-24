@@ -1,0 +1,9 @@
+{
+  "name": "gerberslap-docs-screenshots",
+  "private": true,
+  "type": "module",
+  "description": "Takes the screenshots of the manual (docs/*/usage/img) from the real app, in Italian and in English.",
+  "dependencies": {
+    "puppeteer-core": "25.16.0"
+  }
+}
