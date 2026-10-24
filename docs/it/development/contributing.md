@@ -78,6 +78,8 @@ Lo stile del sito sta in `docs/stylesheets/extra.css`. I caratteri (Inter e JetB
 
 `mkdocs-require.txt` fissa anche le dipendenze indirette: non si aggiorna nulla senza rifare la prova, perché MkDocs 2.0 non è compatibile con Material for MkDocs né con i suoi plugin.
 
+Le immagini del manuale si rifanno con un comando, dall'app vera e nelle due lingue: `cd tools/docs_screenshots && npm install && node shoot.mjs`. Lo script avvia l'app su una cartella dati temporanea con il template della stampante (serve un file `.ctb` fatto con ChiTuBox, in `samples/speedCube.ctb` o indicato con `GERBERSLAP_TEMPLATE`), apre la scheda di esempio e salva i PNG in `docs/it/usage/img/` e `docs/en/usage/img/`. La scheda di esempio la scrive `tools/demo_board/make_demo_board.py` in `docs/assets/GerberSLAp-demo.zip`, sempre con gli stessi byte; un test controlla che lo zip del sito sia quello dello script.
+
 Qualche regola di scrittura:
 
 - niente storia dello sviluppo, solo ciò che serve a capire come è fatta l'app e come si usa;

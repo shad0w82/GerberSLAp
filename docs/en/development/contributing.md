@@ -78,6 +78,8 @@ The look of the site is in `docs/stylesheets/extra.css`. The fonts (Inter and Je
 
 `mkdocs-require.txt` pins the indirect dependencies too: nothing is updated without redoing the trial, because MkDocs 2.0 is not compatible with Material for MkDocs or its plugins.
 
+The manual's images are redone with one command, from the real app and in both languages: `cd tools/docs_screenshots && npm install && node shoot.mjs`. The script starts the app on a temporary data folder with the printer template (you need a `.ctb` file made with ChiTuBox, in `samples/speedCube.ctb` or given with `GERBERSLAP_TEMPLATE`), opens the example board and saves the PNG files in `docs/it/usage/img/` and `docs/en/usage/img/`. The example board is written by `tools/demo_board/make_demo_board.py` into `docs/assets/GerberSLAp-demo.zip`, always with the same bytes; a test checks that the zip on the site is the script's one.
+
 A few rules for writing:
 
 - no development history, only what is needed to understand how the app is built and how it is used;
